@@ -259,7 +259,7 @@ def playlist_tabs(playlists):
     """Render playlists in tabs."""
     include_mixed = st.session_state.profile.get("include_mixed", True)
 
-    tab_labels = ["Hype", "Chill"]
+    tab_labels = ["All", "Hype", "Chill"]
     if include_mixed:
         tab_labels.append("Mixed")
 
@@ -267,7 +267,13 @@ def playlist_tabs(playlists):
 
     for label, tab in zip(tab_labels, tabs):
         with tab:
-            render_playlist(label, playlists.get(label, []))
+            if label == "All":
+                all_songs = []
+                for playlist_songs in playlists.values():
+                    all_songs.extend(playlist_songs)
+                render_playlist(label, all_songs)
+            else:
+                render_playlist(label, playlists.get(label, []))
 
 
 def render_playlist(label, songs):
@@ -299,7 +305,7 @@ def lucky_section(playlists):
 
     mode = st.selectbox(
         "Pick from",
-        options=["any", "hype", "chill"],
+        options=["any", "hype", "chill", "mixed"],
         index=0,
     )
 

@@ -168,7 +168,7 @@ def search_songs(
 
     for song in songs:
         value = str(song.get(field, "")).lower()
-        if value and value in q:
+        if value and q in value:
             filtered.append(song)
 
     return filtered
@@ -183,8 +183,10 @@ def lucky_pick(
         songs = playlists.get("Hype", [])
     elif mode == "chill":
         songs = playlists.get("Chill", [])
+    elif mode == "mixed":
+        songs = playlists.get("Mixed", [])
     else:
-        songs = playlists.get("Hype", []) + playlists.get("Chill", [])
+        songs = playlists.get("Hype", []) + playlists.get("Chill", []) + playlists.get("Mixed", [])
 
     return random_choice_or_none(songs)
 
